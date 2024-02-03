@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+    <h1>Articles List</h1>
+{% endblock %}
+
+{% block content %}
+
+    <div>
+
+        <form action="{% url 'article:list' %}" method="get">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-10">
+                            <div class="mb-3">
+                                <input type="search" class="form-control" id="" aria-describedby="" autocomplete="off"
+                                       placeholder="search there..." name="q">
+                                <div id="emailHelp" class="form-text">Type here article title</div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary">search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <pre class="mt-2">{{ object_list.count }} object(s) found</pre>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <br>
+    <div class="col-md-6">
+        <ul class="list-group list-group-flush">
+            {% for object in object_list %}
+                <li class="list-group-item">
+                    <a class="text" href="{% url 'article:detail' object.slug %}">{{ object.title }}
+                        ({{ object.id }})</a>
+                    <span><a class="btn btn-secondary" href="{% url 'article:change-form' object.id %}">Edit</a></span>
+                    <span><a class="btn btn-danger" href="{% url 'article:delete' object.id %}">Delete</a></span>
+                    {#                <a href="{{ object.get_absolute_url }}">{{ object.title }} ({{ object.id }})</a>#}
+                </li>
+            {% endfor %}
+        </ul>
+
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if object_list.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ object_list.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+                </span>
+
+                {% if object_list.has_next %}
+                    <a href="?page={{ object_list.next_page_number }}">next</a>
+                    <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
+
+    </div>
+
+{% endblock %}

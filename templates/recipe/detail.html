@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Recipe Detail{% endblock %}
+
+{% block header %}
+    <h1>Recipe Detail</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-3 mt-4">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ object.image.url }}" class="img-fluid rounded-start" alt="">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.title }}</h5>
+                            <p class="card-text">{{ object.description }}</p>
+                            <p>
+                                {% for tag in object.tags.all %}
+                                    <mark>{{ tag.title }}</mark>
+                                {% endfor %}
+                            </p>
+                            <p class="card-text"><small class="text-body-secondary">{{ object.created_date }}</small>
+                            </p>
+                        </div>
+                        {% if is_author %}
+                            <div class="card-button p-2 gap-2 d-flex">
+                                <a href="{% url 'recipe:update' object.slug %}" class="btn btn-secondary btn-lg">Editing Recipe</a>
+                                <a href="{% url 'recipe:delete' object.slug %}" class="btn btn-danger btn-lg">Deleting Recipe</a>
+                                <a href="{% url 'recipe:ingredient-create' object.slug %}" class="btn btn-primary btn-lg">Adding New Ingredient</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4 mt-2">
+        {% for ingredient in ingredients %}
+            <div class="col-sm-6 mb-3 mb-sm-0 mt-2">
+                <div class="card {% if not ingredient.is_active %}not_active{% endif %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ingredient.title }}</h5>
+                        <p class="card-text">{{ ingredient.quantity }} - {{ ingredient.get_unit_display }}</p>
+                        {% if is_author %}
+                            <a href="{% url 'recipe:ingredient-edit' object.slug ingredient.id %}" class="btn btn-secondary">Editing Ingredient</a>
+                            <a href="{% url 'recipe:ingredient-delete' object.slug ingredient.id %}" class="btn btn-danger">Deleting Ingredient</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

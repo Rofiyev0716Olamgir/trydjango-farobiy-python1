@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Recipes
+{% endblock %}
+
+{% block header %}
+    <div class="d-flex align-items-center gap-2">
+    <h1>Recipe list <a href="{% url 'recipe:create' %}" class="btn btn-primary">+ Adding New Recipe</a></h1>
+        <form class="row g-3 mt" action="{% url 'recipe:list' %}">
+            <div class="col-auto">
+                <input type="search" name="q" class="form-control" id="search" placeholder="Search...">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row mt-3">
+        {% if object_list %}
+            {% for object in object_list %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <img src="{{ object.image.url }}" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ object.title }}</h5>
+                            <h6 class="card-title">Author: {{ object.author }}</h6>
+                            <p class="card-text">{{ object.description }}</p>
+                            <p class="card-text"><small class="text-body-secondary">{{ object.created_date }}</small>
+                            </p>
+                            <p>
+                                {% for tag in object.tags.all %}
+                                    <a href="?tag={{ tag.title }}">#{{ tag.title }}</a>
+                                {% endfor %}
+
+                            </p>
+                            <a href="{% url 'recipe:detail' object.slug %}" class="btn btn-primary">See more</a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+
+                    <li class="page-item {% if not object_list.has_previous %}disabled{% endif %}">
+                        <a class="page-link" href="{% if object_list.has_previous %}?page={{ object_list.previous_page_number }}{% endif %}">Previous</a>
+                    </li>
+
+                    {% for page_num in object_list.paginator.page_range %}
+
+                        <li class="page-item"><a class="page-link {% if object_list.number == page_num %}active{% endif %}" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                    {% endfor %}
+
+
+
+                    <li class="page-item {% if not object_list.has_next %}disabled{% endif %}">
+                        <a class="page-link" href="{% if object_list.has_next %}?page={{ object_list.next_page_number }}{% endif %}">Next</a>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+
+
+        {% else %}
+            <h1 class="text-center">Hech narsa topilmadi</h1>
+        {% endif %}
+    </div>
+{% endblock %}

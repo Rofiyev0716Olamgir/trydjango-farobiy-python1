@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Recipe delete{% endblock %}
+
+{% block header %}
+    <h1>Recipe Deleting</h1>
+{% endblock %}
+
+{% block content %}
+    {% block primary_links %}
+        <div>
+            <span>
+                <a href="{% url 'recipe:list' %}">Recipes</a>
+            </span>/ <span>Delete</span>
+        </div>
+    {% endblock %}
+    <h3 class="text-dark mt-3">
+        Do you want to delete <span class="text-danger">"{{ object.title }}"?</span>
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger mt-3">Yes, delete it</button>
+            <a type="button" href="{% url 'recipe:detail' object.slug %}" class="btn btn-secondary mt-3">No, thanks</a>
+        </form>
+    </h3>
+
+
+
+{% endblock %}

@@ -1,0 +1,27 @@
+
+.nav {
+    background-color: #44B78B;
+    height: 70px;
+}
+.nav img {
+    height: 100%;
+    width: 70px;
+}
+.delete-btn {
+    color:#fff;
+    background-color: red;
+    padding: 5px 15px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 8px;
+}
+.delete-btn:hover {
+    padding: 5px 12px 5px 18px;
+    transition: 0.5s;
+}
+.delete-obj-title {
+    color: red;
+}
+.not_active {
+    background-color: rgba(246,242,135,.5);
+}

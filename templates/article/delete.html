@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Article Delete</h1>
+{% endblock %}
+
+{% block content %}
+
+    {% block primary_links %}
+        {{ block.super }}
+        <span>Article Delete</span>
+    {% endblock %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2>Are you sure to delete <span class="delete-obj-title">"{{ object.title }}"</span>?</h2>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+                <button class="btn btn-danger" type="submit">Delete</button>
+                <a class="btn btn-secondary" href="{% url 'article:list' %}">No, Thanks</a>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

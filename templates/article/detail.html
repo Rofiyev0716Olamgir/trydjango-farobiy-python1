@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Article Detail</h1>
+{% endblock %}
+
+{% block content %}
+
+    {% block primary_links %}
+        {{ block.super }}
+        <span>Article Detail</span>
+    {% endblock %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                {% if object.image %}
+                    <img src="{{ object.image.url }}" alt="" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.title }}</h5>
+                    <p class="card-text">{{ object.content }}</p>
+                    <pre>{{ object.modified_date }}</pre>
+        <pre>{{ object.created_date }}</pre>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-secondary card-link" href="{% url 'article:change-form' object.id %}">Edit</a>
+                    <a class="btn btn-danger card-link" href="{% url 'article:delete' object.id %}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
